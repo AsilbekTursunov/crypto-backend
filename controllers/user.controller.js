@@ -4,9 +4,9 @@ const authService = require("../services/auth.service");
 const jwt = require("jsonwebtoken");
 class AuthController {
   async register(req, res, next) {
-    const { username, email, password } = req.body;
+    const { email, password } = req.body;
     try {
-      const user = await authService.register(username, email, password);
+      const user = await authService.register(email, password);
       res.cookie("refreshToken", user.refreshToken, {
         httpOnly: true,
         maxAge: 30 * 24 * 60 * 60 * 1000,
@@ -29,7 +29,6 @@ class AuthController {
   }
   async login(req, res, next) {
     const { email, password } = req.body;
-
     try {
       const user = await authService.login(email, password);
       res.cookie("refreshToken", user.refreshToken, {

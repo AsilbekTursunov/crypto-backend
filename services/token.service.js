@@ -4,7 +4,7 @@ const tokenModal = require("../models/token.modal");
 class TokenService {
   generateToken(user) {
     const accessToken = jwt.sign(user, process.env.JWT_ACCESS_KEY, {
-      expiresIn: "1h",
+      expiresIn: "1d",
     });
     const refreshToken = jwt.sign(user, process.env.JWT_REFRESH_KEY, {
       expiresIn: "30d",

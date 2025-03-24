@@ -4,26 +4,24 @@ const dotenv = require("dotenv");
 const fileUpload = require("express-fileupload");
 const cookieParser = require("cookie-parser");
 const cors  = require('cors')
-// routes
-const postRoute = require("./routes/post.route");
+// routes 
 const authRoute = require("./routes/auth.route");
 const errorMiddle = require("./middleware/error.middleware");
 const app = express();
 dotenv.config();
 
-app.use(cors({
-  origin: process.env.CLIENT_URL, // replace with your domain name or IP address
-  credentials: true, // allow cookies
-}))
+// app.use(cors({
+//   origin: '*',
+//   credentials: true, // allow cookies
+// }))
+
 app.use(express.json());
 app.use(express.static("static"));
 
 app.use(cookieParser()); // add cookie-parser middleware to handle cookies
-app.use(fileUpload());
+app.use(fileUpload()); 
 
-app.use("/api/post", postRoute);
 app.use("/api/auth", authRoute);
-
 app.use(errorMiddle);
 
 // connect to MongoDB and start the server

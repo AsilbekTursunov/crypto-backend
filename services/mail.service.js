@@ -18,7 +18,7 @@ class MailService {
       from: process.env.SMTP_USER,
       to: email,
       subject: "Activate your account",
-      text: `Click on the following link to activate your account: ${activationLink}`,
+      text: `This`,
     });
 
     return info;

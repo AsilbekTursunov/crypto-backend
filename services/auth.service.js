@@ -7,15 +7,14 @@ const tokenModal = require("../models/token.modal");
 const BaseError = require("../errors/base.error");
 const mailService = require("./mail.service");
 class AuthService {
-  async register(username, email, password) {
+  async register(email, password) {
     const existingUser = await userModal.findOne({ email });
 
     if (existingUser) {
       throw BaseError.BadRequest("Email already exists");
     }
     const hashedPassword = await bcrypt.hash(password, 10);
-    const response = await userModal.create({
-      username,
+    const response = await userModal.create({ 
       email,
       password: hashedPassword,
     });
@@ -61,6 +60,7 @@ class AuthService {
 
   async refresh(refreshToken) {
     const userPaylod = jwt.verify(refreshToken, process.env.JWT_REFRESH_KEY);
+    console.log(userPaylod);
     const tokenVerifed = await tokenService.verifyRefreshToken(userPaylod.id);
     if (!userPaylod || !tokenVerifed) {
       throw BaseError.BadRequest("Bad authorization");
