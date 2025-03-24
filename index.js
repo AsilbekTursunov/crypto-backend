@@ -10,10 +10,10 @@ const errorMiddle = require("./middleware/error.middleware");
 const app = express();
 dotenv.config();
 
-// app.use(cors({
-//   origin: '*',
-//   credentials: true, // allow cookies
-// }))
+app.use(cors({
+  origin: '*',
+  credentials: true, // allow cookies
+}))
 
 app.use(express.json());
 app.use(express.static("static"));
@@ -25,7 +25,7 @@ app.use("/api/auth", authRoute);
 app.use(errorMiddle);
 
 // connect to MongoDB and start the server
-const PORT = process.env.PORT || 8080;
+const PORT = 8080;
 
 // call port
 const bootstrap = async () => {
