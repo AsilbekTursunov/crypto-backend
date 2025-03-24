@@ -1,7 +1,4 @@
-const BaseError = require("../errors/base.error");
-const userModel = require("../models/user.model");
 const authService = require("../services/auth.service");
-const jwt = require("jsonwebtoken");
 class AuthController {
   async register(req, res, next) {
     const { email, password } = req.body;

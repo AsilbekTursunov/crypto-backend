@@ -1,11 +1,10 @@
 const UserDto = require("../dtos/user.dto");
 const userModal = require("../models/user.model");
-const bcrypt = require("bcrypt");
+const bcrypt = require("bcryptjs");
 const tokenService = require("./token.service");
 const jwt = require("jsonwebtoken");
 const tokenModal = require("../models/token.modal");
 const BaseError = require("../errors/base.error");
-const mailService = require("./mail.service");
 class AuthService {
   async register(email, password) {
     const existingUser = await userModal.findOne({ email });
@@ -23,9 +22,7 @@ class AuthService {
     const tokens = tokenService.generateToken({
       email: userDto.email,
       id: userDto.id,
-    }); 
-
-    await tokenService.saveToken(userDto.id, tokens.refreshToken);
+    });  
     return { user: userDto, ...tokens };
   }
 
@@ -54,7 +51,6 @@ class AuthService {
       id: userDto.id,
     });
 
-    await tokenService.saveToken(userDto.id, tokens.refreshToken);
     return { user: userDto, ...tokens };
   }
 
@@ -72,7 +68,6 @@ class AuthService {
       id: userDto.id,
     });
 
-    await tokenService.saveToken(user.id, tokens.refreshToken);
     return { user: userDto, ...tokens };
   }
 
