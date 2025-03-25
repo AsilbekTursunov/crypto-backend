@@ -83,7 +83,12 @@ class AuthService {
       throw BaseError.BadRequest("User not found");
     }
     const userDto = new UserDto(user);
-    return userDto;
+    const tokens = tokenService.generateToken({
+      email: userDto.email,
+      id: userDto.id,
+    });
+
+    return { user: userDto, ...tokens };
   }
 }
 
