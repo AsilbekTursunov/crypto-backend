@@ -54,11 +54,11 @@ class AuthService {
     return { user: userDto, ...tokens };
   }
 
-  async refresh(refreshToken) {
+  async refresh(refreshToken) { 
+    console.log(refreshToken); 
     const userPaylod = jwt.verify(refreshToken, process.env.JWT_REFRESH_KEY);
-    console.log(userPaylod);
-    const tokenVerifed = await tokenService.verifyRefreshToken(userPaylod.id);
-    if (!userPaylod || !tokenVerifed) {
+    console.log(userPaylod); 
+    if (!userPaylod) {
       throw BaseError.BadRequest("Bad authorization");
     }
     const user = await userModal.findById(userPaylod.id);
