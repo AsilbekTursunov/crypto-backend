@@ -10,7 +10,8 @@ const app = express();
 config();
 
 app.use(cors({
-  origin: '*',
+  origin: '*', // all domains
+  methods: ['GET', 'POST', 'PUT', 'DELETE'],
   credentials: true, // allow cookies
 }))
 
