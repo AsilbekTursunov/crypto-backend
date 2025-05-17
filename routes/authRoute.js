@@ -97,7 +97,7 @@ router.post('/forget-password', async (req, res) => {
     sendMessage(email, user.username, code)
 
     res.json({ message: 'Message sent' })
-  } catch (error) { 
+  } catch (error) {
     res.status(500).json({ error: { message: error.message } });
   }
 })
@@ -114,6 +114,62 @@ router.post('/reset-password', async (req, res) => {
     console.log(error);
     res.status(500).json({ error: { message: error.message } });
 
+  }
+})
+
+router.get('/coins', async (req, res) => {
+  try {
+    const response = await fetch(
+      `https://api.coingecko.com/api/v3/coins/markets?vs_currency=usd`,
+      {
+        method: 'GET',
+        headers: {
+          "x-cg-demo-api-key": "CG-mH4cERDndy92fwRYm2MsHqJv",
+        },
+        params: {
+          per_page: 100
+        }
+      }
+    );
+    const data = await response.json()
+    return res.json({ coins: data })
+  } catch (error) {
+    return res.json({ error: 'Server error' })
+  }
+})
+router.get('/coin/:id', async (req, res) => {
+
+  const id = req.params.id
+
+  try {
+    const response = await fetch(`https://api.coingecko.com/api/v3/coins/${id}`, {
+      method: 'GET',
+      headers: { accept: 'application/json', 'x-cg-demo-api-key': 'CG-mH4cERDndy92fwRYm2MsHqJv' }
+    });
+    const data = await response.json()
+    console.log(data);
+
+    return res.json({ details: data })
+  } catch (error) {
+    return res.json({ error: 'Server error' })
+  }
+})
+
+router.get('/news', async (req, res) => {
+  try {
+    const prices = await fetch(
+      `https://cryptocurrency-news2.p.rapidapi.com/v1/cryptodaily`, {
+      method: 'GET',
+      headers: {
+        'x-rapidapi-key': '19f52f8ce7msh869e47b46a27db0p186d38jsn4f8679603bb5',
+        'x-rapidapi-host': 'cryptocurrency-news2.p.rapidapi.com'
+      }
+    }
+    )
+    const { data } = await prices.json()
+    return res.json({ news: data })
+  } catch (error) {
+    return res.json({ error: 'Server error' })
   }
 })
 
