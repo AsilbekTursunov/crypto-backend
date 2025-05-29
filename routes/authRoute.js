@@ -137,6 +137,48 @@ router.get('/coins', async (req, res) => {
     return res.json({ error: 'Server error' })
   }
 })
+router.get('/exchanges', async (req, res) => {
+  try {
+    const response = await fetch(
+      `https://api.coingecko.com/api/v3/exchanges`,
+      {
+        method: 'GET',
+        headers: {
+          "x-cg-demo-api-key": "CG-mH4cERDndy92fwRYm2MsHqJv",
+        },
+        params: {
+          per_page: 100
+        }
+      }
+    );
+    const data = await response.json()
+    return res.json({ exchanges: data })
+  } catch (error) {
+    return res.json({ error: 'Server error' })
+  }
+})
+
+router.get('/exchange/:id', async (req, res) => {
+  const id = req.params.id
+  try {
+    const response = await fetch(
+      `https://api.coingecko.com/api/v3/exchanges/${id}`,
+      {
+        method: 'GET',
+        headers: {
+          "x-cg-demo-api-key": "CG-mH4cERDndy92fwRYm2MsHqJv",
+        },
+        params: {
+          per_page: 100
+        }
+      }
+    );
+    const data = await response.json()
+    return res.json({ details: data })
+  } catch (error) {
+    return res.json({ error: 'Server error' })
+  }
+})
 router.get('/coin/:id', async (req, res) => {
 
   const id = req.params.id
