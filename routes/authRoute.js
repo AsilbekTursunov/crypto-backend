@@ -188,8 +188,7 @@ router.get('/coin/:id', async (req, res) => {
       method: 'GET',
       headers: { accept: 'application/json', 'x-cg-demo-api-key': 'CG-mH4cERDndy92fwRYm2MsHqJv' }
     });
-    const data = await response.json()
-    console.log(data);
+    const data = await response.json() 
 
     return res.json({ details: data })
   } catch (error) {
